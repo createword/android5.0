@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item1"
+            android:title="菜单一" />
+        <item
+            android:id="@+id/item2"
+            android:title="菜单二" />
+        <item
+            android:id="@+id/item3"
+            android:title="菜单三" />
+    </group>
+
+    <item android:title="子菜单">
+        <menu>
+            <item
+                android:id="@+id/itema"
+                android:title="菜单一" />
+            <item
+                android:id="@+id/itemb"
+                android:title="菜单二" />
+            <item
+                android:id="@+id/itemc"
+                android:title="菜单三" />
+        </menu>
+    </item>
+
+</menu>
