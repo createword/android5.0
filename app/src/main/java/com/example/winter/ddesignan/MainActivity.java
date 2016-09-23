@@ -10,16 +10,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private List<String> listStr;
-    DrawerLayout drawerLayout;
+    private  DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listStr = new ArrayList<String>();
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tably);
         ViewPager vp = (ViewPager) findViewById(R.id.vp);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 4; i++) {
             listStr.add(i + "intdata");
         }
         vp.setAdapter(new myAdapter(getSupportFragmentManager(), listStr));
@@ -59,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.item3) {
 
         }
-
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
