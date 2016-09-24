@@ -58,39 +58,6 @@ public class FileUtils {
 
     }
 
-    /**
-     * 保存数据获取路径
-     *
-     * @param name
-     * @return
-     */
-    public static String getDirPath(String name) {
-        StringBuilder path = new StringBuilder();
-        if (isSDAvailable()) {
-            path.append(Environment.getExternalStorageDirectory().getAbsolutePath());
-            path.append(File.separator);// '/'
-            path.append(ROOT);// /mnt/sdcard/GooglePlay
-            path.append(File.separator);
-            path.append("DataFile");// /mnt/sdcard/GooglePlay/cache
-
-        } else {
-            File filesDir = uiUtilsTool.getBasAppContext().getCacheDir(); // cache
-            // getFileDir
-            // file
-            path.append(filesDir.getAbsolutePath());// /data/data/com.itheima.googleplay/cache
-            path.append(File.separator);/// data/data/com.itheima.googleplay/cache/
-            path.append("DataFile");/// data/data/com.itheima.googleplay/cache/cache
-
-        }
-        File file = new File(path.toString());
-        if (!file.exists() || !file.isDirectory()) {
-            file.mkdirs();// 创建文件夹
-        }
-
-        return path.toString() + name;
-
-    }
-
     private static boolean isSDAvailable() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return true;

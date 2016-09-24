@@ -3,6 +3,7 @@ package com.example.winter.ddesignan;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +18,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private List<String> listStr;
+    private List<Fragment> listF;
     private  DrawerLayout drawerLayout;
 
     @Override
@@ -36,13 +37,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
         //--------
-        listStr = new ArrayList<String>();
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tably);
         ViewPager vp = (ViewPager) findViewById(R.id.vp);
-        for (int i = 0; i < 4; i++) {
-            listStr.add(i + "intdata");
-        }
-        vp.setAdapter(new myAdapter(getSupportFragmentManager(), listStr));
+        listF = new ArrayList<Fragment>();
+        listF.add(new HomeFragment());
+        listF.add(new DesignFragment());
+        listF.add(new ShowImgFragment());
+
+        vp.setAdapter(new myAdapter(getSupportFragmentManager(), listF));
         tabLayout.setupWithViewPager(vp);
 
     }
