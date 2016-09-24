@@ -31,6 +31,7 @@ public class ShowImgFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.shoimg, null);
+
         return view;
 
     }
@@ -38,7 +39,7 @@ public class ShowImgFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final String url = "http://img3.imgtn.bdimg.com/it/u=1710405152,1210183381&fm=21&gp=0.jpg";
+        final String url ="http://a.hiphotos.baidu.com/baike/crop%3D0%2C97%2C785%2C517%3Bc0%3Dbaike92%2C5%2C5%2C92%2C30/sign=c9a68f56a944ad343af0ddc7ed9220cd/4a36acaf2edda3cc245c959b09e93901203f92d4.jpg";
         Button bt = (Button) view.findViewById(R.id.bt);
         final ImageView imview = (ImageView) view.findViewById(R.id.img);
 
@@ -58,8 +59,9 @@ public class ShowImgFragment extends Fragment {
             if (inputStream == null) {
                 lruCacheUtils.putCache(url, new LruCacheUtils.CallBack() {
                     @Override
-                    public void response(Object entry) {
-                        img.setImageBitmap((Bitmap) entry);
+                    public void response(Bitmap entry) {
+                        System.out.print("loadS............................"+entry);
+                        img.setImageBitmap( entry);
                     }
                 });
             } else {
@@ -70,6 +72,7 @@ public class ShowImgFragment extends Fragment {
             }
         } else {
             //cache memory
+            System.out.print("cache");
             img.setImageBitmap(bitmap);
         }
     }

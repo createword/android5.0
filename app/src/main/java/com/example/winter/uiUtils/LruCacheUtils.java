@@ -34,7 +34,7 @@ public class LruCacheUtils {
     private DiskLruCache mDiskLruCache;
     private Context context;
     private LruCache<String, Bitmap> mMemoryCache;
-    private int insampSize = 0;
+    private int insampSize = 1;
 
     public static LruCacheUtils getInstance() {
         if (lruCacheUtils == null) {
@@ -159,8 +159,8 @@ public class LruCacheUtils {
                 try {
                     URL url1 = new URL(params[0]);
                     HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
-                    conn.setReadTimeout(5000);
-                    conn.setConnectTimeout(5000);
+                    conn.setReadTimeout(3000);
+                    conn.setConnectTimeout(3000);
                     ByteArrayOutputStream baos = null;
                     if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                         BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
@@ -194,10 +194,12 @@ public class LruCacheUtils {
             }
 
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
                 callBack.response(bitmap);
             }
+
+
         }.execute(url);
     }
 
@@ -235,7 +237,7 @@ public class LruCacheUtils {
         }
     }
 
-    public interface CallBack<T> {
-        public void response(T entry);
+    public interface CallBack {
+        public void response(Bitmap entry);
     }
 }
