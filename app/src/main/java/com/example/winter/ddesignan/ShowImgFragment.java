@@ -10,19 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.example.winter.uiUtils.BitmapUtils;
 import com.example.winter.uiUtils.LruCacheUtils;
-
 import java.io.InputStream;
 
 /**
  * Created by WINTER on 2016/9/23.
  */
 public class ShowImgFragment extends Fragment {
-    BitmapUtils bitmapUtils = new BitmapUtils();
-
     private LruCacheUtils lruCacheUtils;
     private static String DISK_CACHE_SUBDIR = "temp";
     private static int DISJ_CACHE_SIZE = 1024 * 1024 * 10;
@@ -43,7 +37,6 @@ public class ShowImgFragment extends Fragment {
         Button bt = (Button) view.findViewById(R.id.bt);
         final ImageView imview = (ImageView) view.findViewById(R.id.img);
 
-        bitmapUtils.acquireMemoryCache();//获取系统内存
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
