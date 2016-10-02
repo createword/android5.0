@@ -1,0 +1,111 @@
+一、也许很多童鞋对getWidth()和 getMeasuredWidth()的用法有很多的不解，这两者之间有什麼样的不同呢，网上也有各种不同的版本，但大多数都大同小异，从这个地方 Ctrl+C,到另一个地方Ctrl+V,没有把问题说透，也有一部分文章误导了大家对这两个方法的认识，我也是深受其害。这裡先纠正下面的一个版本的说 法，Baidu上一搜一大堆的，可惜这种说法是错的，所以希望大家就不要再盲目的转载到你的空间裡：
+                     getWidth得到是某个view的实际尺寸.
+                     getMeasuredWidth是得到某view想要在parent view里面占的大小.
+想必你也见过这样的解释，听起来这样的解释也似云里雾里，没有把问题点透。
+
+二、好了，错误的版本就不过多说了，下面对这两个方法做一下正解，首先大家应先知道以下几点：
+1. 在一个类初始化时，即在构造函数当中我们是得不到View的实际大小的。感兴趣的朋友可以试一下，getWidth()和getMeasuredWidth()得到的结果都是0.但是我们可以从onDraw()方法裡面得到控件的大小。
+2. 这两个方法所得到的结果的单位是像素即pixel.
+对两个方法做介绍：
+getWidth(): 得到的是view在父Layout中布局好后的宽度值，如果没有父布局，那麼默认的父布局是整个屏幕。也许不好理解。通过一个例子来说明一下。
+例1 ：
+
+    public class Test extends Activity {
+     private LinearLayout mBackgroundLayout;
+     private TextViewTest mTextViewTest;
+
+     /** Called when the activity is first created. */
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+
+      mBackgroundLayout = new MyLayout(this);
+      mBackgroundLayout.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.FILL_PARENT,
+        LinearLayout.LayoutParams.FILL_PARENT));
+
+      mTextViewTest = new TextViewTest(this);
+
+      mBackgroundLayout.addView(mTextViewTest);
+      setContentView(mBackgroundLayout);
+     }
+     public class MyLayout extends LinearLayout{
+
+      public MyLayout(Context context) {
+       super(context);
+       // TODO Auto-generated constructor stub
+      }
+
+      @Override
+      protected void onLayout(boolean changed, int l, int t, int r, int b) {
+       // TODO Auto-generated method stub
+       super.onLayout(changed, l, t, r, b);
+       Log.i("Tag", "--------------");
+       View mView=getChildAt(0);
+       mView.measure(0, 0);
+      }
+
+     }
+     public class TextViewTest extends TextView {
+      public TextViewTest(Context context) {
+       super(context);
+       // TODO Auto-generated constructor stub
+       setText("test test ");
+      }
+
+      @Override
+       protected void onDraw(Canvas canvas) {
+       // TODO Auto-generated method stub
+       super.onDraw(canvas);
+       // measure(0, 0);
+       Log.i("Tag", "width: " + getWidth() + ",height: " + getHeight());
+       Log.i("Tag", "MeasuredWidth: " + getMeasuredWidth()
+         + ",MeasuredHeight: " + getMeasuredHeight());
+       }
+
+     }
+    }
+
+
+这裡是在LinearLayout裡添加一个TextView控件，如果此时要得到对TextView获取getWidth()，那麼是在TextView添加到Layout后再去获取值，并不单单的是对TextView本身宽度的获取。
+getMeasuredWidth()：先看一下API裡面怎麼说的
+The width of this view as measured in the most recent call to measure(). This should be used during measurement and layout calculations only.
+得到的是在最近一次调用measure()方法测量后得到的view的宽度，它仅仅用在测量和layout的计算中。
+所以此方法得到的是view的内容佔据的实际宽度。
+你如果想从一个最简单的例子中的到它们的不同，下面将对上面的例子做一下修改：
+
+    public class Test extends Activity {
+     private TextViewTest mTextViewTest;
+
+     /** Called when the activity is first created. */
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      mTextViewTest = new TextViewTest(this);
+      setContentView(mTextViewTest);
+     }
+
+     public class TextViewTest extends TextView {
+      public TextViewTest(Context context) {
+       super(context);
+       // TODO Auto-generated constructor stub
+       setText("test test ");
+      }
+
+      @Override
+      protected void onDraw(Canvas canvas) {
+       // TODO Auto-generated method stub
+       super.onDraw(canvas);
+       measure(0, 0);
+       Log.i("Tag", "width: " + getWidth() + ",height: " + getHeight());
+       Log.i("Tag", "MeasuredWidth: " + getMeasuredWidth()
+         + ",MeasuredHeight: " + getMeasuredHeight());
+      }
+     }
+    }
+
+
+总结（正解）：
+ getWidth(): View在设定好布局后整个View的宽度。
+ getMeasuredWidth(): 对View上的内容进行测量后得到的View内容佔据的宽度，前提是你必须在父布局的onLayout()方法或者此View的onDraw()方法裡调 用measure(0,0);(measure 参数的值你可以自己定义)，否则你得到的结果和getWidth()得到的结果一样。
+      也许我组织的不是很好，大家有什么不清楚的地方再给我留言。关於这两个方法的区别就是看你有没有用measure()方法，当然measure（）的位置也是很重要的。

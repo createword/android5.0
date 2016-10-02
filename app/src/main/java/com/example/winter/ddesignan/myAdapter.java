@@ -13,7 +13,7 @@ public class myAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> listStr;
 
     public myAdapter(FragmentManager fm, List<Fragment> listStr) {
-        super(fm);
+         super(fm);
         this.listStr = listStr;
     }
 

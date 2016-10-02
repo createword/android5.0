@@ -14,28 +14,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.winter.base.BaseFragment;
 import com.example.winter.uiUtils.BitmapUtils;
 import com.example.winter.uiUtils.uiUtilsTool;
 
 /**
  * Created by WINTER on 2016/9/23.
  */
-public class DesignFragment extends Fragment {
+public class DesignFragment extends BaseFragment {
     BitmapUtils bitmapUtils = new BitmapUtils();
     Bitmap bmps;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected View createView() {
         View view = View.inflate(getActivity(), R.layout.design, null);
         return view;
-
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    protected void initView(View view) {
         Button bt = (Button) view.findViewById(R.id.bt);
         final ImageView imview = (ImageView) view.findViewById(R.id.img);
 
